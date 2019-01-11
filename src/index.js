@@ -1,21 +1,27 @@
-import React from 'react';
-import { render } from 'react-dom';
-import './index.css';
-import * as serviceWorker from './serviceWorker';
-import ApolloClient from 'apollo-boost';
-import { ApolloProvider } from 'react-apollo';
+import React from 'react'
+import ReactDOM from 'react-dom'
+import './styles/index.css'
+import * as serviceWorker from './serviceWorker'
+import App from './components/App'
+import { ApolloClient } from 'apollo-client'
+import { ApolloProvider } from 'react-apollo'
+import { createHttpLink } from 'apollo-link-http'
+import { InMemoryCache } from 'apollo-cache-inmemory'
 
-const client = new ApolloClient({
-  uri: "https://48p1r2roz4.sse.codesandbox.io"
+const httpLink = createHttpLink({
+  uri: 'http://localhost:4000'
 })
 
-const App = () => (
-  <ApolloProvider client={client}>
-    <div>
-      <h2> My Side Project Liveth</h2>
-    </div>
-  </ApolloProvider>
-);
+const client = new ApolloClient({
+  link: httpLink,
+  cache: new InMemoryCache()
+})
 
-render(<App/>, document.getElementById("root"));
-serviceWorker.unregister();
+ReactDOM.render(
+  <ApolloProvider client={client}>
+    <App />
+  </ApolloProvider>,
+  document.getElementById('root')
+)
+
+serviceWorker.register();
