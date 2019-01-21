@@ -47,7 +47,6 @@ class LinkList extends Component {
 
           return (
             <div>
-              .class
               {linksToRender.map((link, index) => (
                 <Link
                   key={link.id}
